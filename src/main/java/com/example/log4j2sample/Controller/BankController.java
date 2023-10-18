@@ -50,7 +50,7 @@ public class BankController {
         logger.info("Info log Inside Method");
         System.out.println("callAccountDetailsEndpoint"+accountNo);
         RestTemplate restTemplate = new RestTemplate();
-        String baseUrl = "http://localhost:8990/bank/accounts";
+       // String baseUrl = "http://localhost:8990/bank/accounts";
         ResponseEntity<String> response = restTemplate.exchange(
                 baseUrl + "/getAccountDetails/", HttpMethod.GET, null, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
