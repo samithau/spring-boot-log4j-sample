@@ -23,7 +23,7 @@ public class BankController {
     private static final Logger logger = LogManager.getLogger(Log4jSampleApplication.class);
 
     @GetMapping("/getAccountDetailsByAccountNo/{accountNo}")
-    public String account(@PathVariable String accountNo) {
+    public String getAccountDetails(@PathVariable String accountNo) {
         String accountDetailsResponse = callAccountDetailsEndpoint(accountNo);
         return accountDetailsResponse;
     }
@@ -31,18 +31,20 @@ public class BankController {
     private String callAccountDetailsEndpoint(String accountNo) {
         logger.info("Info log Inside Method");
         RestTemplate restTemplate = new RestTemplate();
-        String baseUrl = "http://localhost:8080/accounts";
+        String baseUrl = "http://localhost:8990/accounts";
         ResponseEntity<String> response = restTemplate.exchange(
                 baseUrl + "/accountDetails/", HttpMethod.GET, null, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
+            logger.error("Oops! Error calling /accountDetails/ endpoint");
             return "Error calling /accountDetails/ endpoint";
         }
     }
 
     @GetMapping("/accountDetails/")
     public SampleResponse accountDetails() {
+        logger.warn("This is a warning for accountDetails!");
         SampleResponse response = new SampleResponse(1, "", "", new Other("", "", ""));
         return response;
     }
