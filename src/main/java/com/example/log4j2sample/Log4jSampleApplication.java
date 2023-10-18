@@ -20,10 +20,6 @@ public class Log4jSampleApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments applicationArguments) throws Exception {
-		/*logger.debug("Debugging log");
-		logger.info("Info log");
-		logger.warn("This is a warning!");
-		logger.error("Oops! We have an Error. OK");
-		logger.fatal("Fatal error. Please fix me.");*/
+
 	}
 }
