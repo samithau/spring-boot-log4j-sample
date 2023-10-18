@@ -39,9 +39,6 @@ public class BankController {
 
     @GetMapping("/getAccountDetailsByAccountNo/{accountNo}")
     public String getAccountDetails(@PathVariable String accountNo) {
-        environment.getProperty("BASEURL");
-        System.out.println("ENV 1-----------"+environment.getProperty("BASEURL"));
-        System.out.println("ENV 2-----------"+baseUrl);
         String accountDetailsResponse = callAccountDetailsEndpointbyAccountNo(accountNo);
         return accountDetailsResponse;
     }
@@ -68,10 +65,8 @@ public class BankController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        // Define the base URL
         String baseUrl = "http://localhost:8990/bank/accounts";
 
-        // Create the URL with the accountNo as a query parameter
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl + "/getAccountDetails/")
                 .queryParam("accountNo", accountNo);
 
@@ -108,15 +103,21 @@ public class BankController {
     }
 
     //DataBase Connect
-    @GetMapping(value = "/getAccountDetails/{accountNo}")
-    public ResponseEntity<List<AccountDetails>> getAllAccountDetailsbyAccountNumber(@PathVariable String accountNo) {
+    @GetMapping(value = "/getAccountDetailsByNumber/{accountNo}")
+    public  ResponseEntity<?> getAllAccountDetailsbyAccountNumber(@PathVariable String accountNo) {
+        logger.info("getAllAccountDetailsbyAccountNumber--" + accountNo);
         try {
-            System.out.println("getAllAccountDetailsbyAccountNumber"+accountNo);
             List<AccountDetails> accountDetails = bankService.getAllAccountDetailsbyAccountNumber(accountNo);
-            return new ResponseEntity<List<AccountDetails>>(accountDetails, HttpStatus.OK);
+            if (accountDetails.isEmpty()) {
+                logger.warn("This is a warning for accountDetails!");
+                return new ResponseEntity<>("Not Found.", HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<List<AccountDetails>>(accountDetails, HttpStatus.OK);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            logger.warn("This is a warning for accountDetails!");
+            return new ResponseEntity<>("An error occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

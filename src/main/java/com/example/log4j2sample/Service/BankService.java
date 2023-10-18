@@ -7,5 +7,5 @@ import java.util.List;
 public interface BankService {
 
     List<AccountDetails> getAllAccountDetails();
-    public List<AccountDetails> getAllAccountDetailsbyAccountNumber(String  accountNo);
+    List<AccountDetails> getAllAccountDetailsbyAccountNumber(String  accountNo);
 }
