@@ -17,12 +17,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="p_district")
+@Table(name="p_account")
 public class AccountDetails implements Serializable{
 
 	@Id
-	@Column(name="district_id")
-	protected Long districtId;
+	@Column(name="account_id")
+	protected Long accountId;
 	
 	@Column(name="version")
 	protected Long version;
