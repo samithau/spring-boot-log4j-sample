@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +31,22 @@ public class BankController {
     @Autowired
     BankService bankService;
 
+    @Autowired
+    private Environment environment;
+
+    String baseUrl = System.getenv("BASEURL");
     private static final Logger logger = LogManager.getLogger(Log4jSampleApplication.class);
 
     @GetMapping("/getAccountDetailsByAccountNo/{accountNo}")
     public String getAccountDetails(@PathVariable String accountNo) {
+        environment.getProperty("BASEURL");
+        System.out.println("ENV 1-----------"+environment.getProperty("BASEURL"));
+        System.out.println("ENV 2-----------"+baseUrl);
         String accountDetailsResponse = callAccountDetailsEndpointbyAccountNo(accountNo);
         return accountDetailsResponse;
     }
 
- /*   private String callAccountDetailsEndpoint(String accountNo) {
+   private String callAccountDetailsEndpoint(String accountNo) {
         logger.info("Info log Inside Method");
         System.out.println("callAccountDetailsEndpoint"+accountNo);
         RestTemplate restTemplate = new RestTemplate();
@@ -51,7 +59,9 @@ public class BankController {
             logger.error("Oops! Error calling /accountDetails/ endpoint");
             return "Error calling /getAccountDetails/ endpoint";
         }
-    }*/
+    }
+
+
    private String callAccountDetailsEndpointbyAccountNo(String accountNo) {
 
         logger.info("callAccountDetailsEndpoint--" + accountNo);
