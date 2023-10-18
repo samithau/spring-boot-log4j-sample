@@ -5,6 +5,8 @@ import com.example.log4j2sample.Repo.AccountRepo;
 import com.example.log4j2sample.Service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,17 @@ public class BankServiceImpl implements BankService {
         try {
             List<AccountDetails> district = accountRepo.findAll();
             return district;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<AccountDetails> getAllAccountDetailsbyAccountNumber(String accountNo) {
+        try {
+            List<AccountDetails> accountDetails = accountRepo.findByAccountNumber(accountNo);
+            return accountDetails;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
