@@ -106,6 +106,8 @@ public class BankController {
     @GetMapping(value = "/getAccountDetailsByNumber/{accountNo}")
     public  ResponseEntity<?> getAllAccountDetailsbyAccountNumber(@PathVariable String accountNo) {
         logger.info("getAllAccountDetailsbyAccountNumber--" + accountNo);
+        logger.info("getAllAccountDetailsbyAccountNumber");
+
         try {
             List<AccountDetails> accountDetails = bankService.getAllAccountDetailsbyAccountNumber(accountNo);
             if (accountDetails.isEmpty()) {
