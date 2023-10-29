@@ -1,10 +1,10 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/openshift?useSSL=false
-    username: root
-    password: root@789
+    url: jdbc:mysql://mysql.tracing-system.svc.cluster.local:3306/openshift?useSSL=false
+    username: app
+    password: app
   application:
-    name: bank-service-v19
+    name: bank-service
   main:
     allow-bean-definition-overriding: true
     jpa:
@@ -21,11 +21,11 @@ spring:
         org.springframework.web: DEBUG
 opentracing:
   jaeger:
-    service-name: bank-service-v204
+    service-name: bank-service
     enable: true
     udp-sender:
       host: localhost
-      #port: 6831  # Adjust the port as needed
+      port: 6831
   sampler:
     type: const
     param: 1
@@ -33,7 +33,7 @@ server:
   error:
     whitelabel:
       enabled: false
-  port: 9595
+  port: 8080
   servlet:
     context-path: /bank
 
