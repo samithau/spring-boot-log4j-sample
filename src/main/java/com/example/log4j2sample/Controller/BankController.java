@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -34,13 +35,26 @@ public class BankController {
     @Autowired
     private Environment environment;
 
-    String baseUrl = System.getenv("BASEURL");
+    @Value("${spring.application.name}")
+    private String applicationName;
+
+    @Value("${baseUrl}")
+    private String baseUrl;
+
+//    String baseUrl = System.getenv("BASEURL");
     private static final Logger logger = LogManager.getLogger(Log4jSampleApplication.class);
 
     @GetMapping("/getAccountDetailsByAccountNo/{accountNo}")
     public String getAccountDetails(@PathVariable String accountNo) {
         String accountDetailsResponse = callAccountDetailsEndpointbyAccountNo(accountNo);
         return accountDetailsResponse;
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+   //     logger.info("Hello " + emoji);
+        logger.info("applicationName " + applicationName);
+        return "Hello " ;
     }
 
    private String callAccountDetailsEndpoint(String accountNo) {
